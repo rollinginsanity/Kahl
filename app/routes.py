@@ -33,5 +33,4 @@ def upload():
       <p><input type=file name=file>
          <input type=submit value=Upload>
     </form>
-    ''' % "<br>".join(os.listdir(app.config['UPLOAD_FOLDER'],))
- 
+    '''
