@@ -3,7 +3,6 @@ from app import app
 import os
 from flask import request, redirect, url_for
 from werkzeug import secure_filename
-from flask.ext.uploads import delete, init, save, Upload
 
 UPLOAD_FOLDER = 'comics/unprocessed'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'cbz'])
