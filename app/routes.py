@@ -28,12 +28,12 @@ def extractcomic(comicfile, comic_name):
     output = "comics/processed/"+comic_name_hex
     f = open(output+"meta","w")
     f.write(comic_name+"\n")
-	zf = zipfile.ZipFile(comicfile)
+    zf = zipfile.ZipFile(comicfile)
     i = 1
-	for file in zf.namelist():
+    for file in zf.namelist():
         f.write("page"+i+":"+file+"\n")
         i += 1
-		zf.extract(file, output)
+        zf.extract(file, output)
     f.close
 
 @app.route('/')
