@@ -32,7 +32,7 @@ def extractcomic(comicfile, comic_name):
     pages_in_comic = []
     for file in zf.namelist():
         filenumber = filenumber_rex.sub('',file)
-        pages_in_comic.append("page"+str(int(filenumber).zfill(3))+":"+file+"\n")
+        pages_in_comic.append("page"+filenumber.zfill(3)+":"+file+"\n")
         zf.extract(file, output)
     f = open(output+"/meta","w")
     f.write(comic_name+"\n")
