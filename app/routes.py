@@ -27,15 +27,17 @@ def extractcomic(comicfile, comic_name):
     comic_name_hashed = hashlib.sha1(comic_name_pre_hash.encode())
     comic_name_hex = comic_name_hashed.hexdigest()
     output = "comics/processed/"+comic_name_hex
-    os.mkdir(output)
-    f = open(output+"/meta","w")
-    f.write(comic_name+"\n")
     zf = zipfile.ZipFile(comicfile)
     filenumber_rex = re.compile(r'[^\d]+')
+    pages_in_comic[]
     for file in zf.namelist():
         filenumber = filenumber_rex.sub('',file)
-        f.write("page"+str(int(filenumber).zfill(3))+":"+file+"\n")
+        pages_in_comic.append("page"+str(int(filenumber).zfill(3))+":"+file+"\n")
         zf.extract(file, output)
+    f = open(output+"/meta","w")
+    f.write(comic_name+"\n")
+    for page in pages_in_comic:
+        f.write(page+"\n")
     f.close
 
 @app.route('/')
