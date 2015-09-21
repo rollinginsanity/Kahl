@@ -3,6 +3,7 @@ from app import app
 import os
 from flask import request, redirect, url_for
 from werkzeug import secure_filename
+from flask.ext.uploads import delete, init, save, Upload
 
 UPLOAD_FOLDER = 'comics/unprocessed'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'cbz'])
@@ -24,8 +25,7 @@ def upload():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
+            return redirect(url_for('index'))
     return '''
     <!doctype html>
     <title>Upload new File</title>
