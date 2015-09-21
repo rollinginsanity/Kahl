@@ -24,7 +24,7 @@ def upload():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return "Uploaded"
+            return redirect(url_for('index'))
     return '''
     <!doctype html>
     <title>Upload new File</title>
@@ -33,4 +33,5 @@ def upload():
       <p><input type=file name=file>
          <input type=submit value=Upload>
     </form>
-    '''
+    ''' % "<br>".join(os.listdir(app.config['UPLOAD_FOLDER'],))
+ 
