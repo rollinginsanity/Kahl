@@ -26,13 +26,12 @@ def extractcomic(comicfile, comic_name):
     comic_name_hashed = hashlib.sha1(comic_name_pre_hash.encode())
     comic_name_hex = comic_name_hashed.hexdigest()
     output = "comics/processed/"+comic_name_hex
-    f = open(output+"meta","w")
+    f = open(output+"/meta","w")
     f.write(comic_name+"\n")
     zf = zipfile.ZipFile(comicfile)
-    i = 1
     for file in zf.namelist():
-        f.write("page"+str(i)+":"+file+"\n")
-        i += 1
+        filenumber = file.replace(".jpg", "")
+        f.write("page"+str(int(filenumber).zfill(3)))+":"+file+"\n")
         zf.extract(file, output)
     f.close
 
