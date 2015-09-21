@@ -9,6 +9,7 @@ from addf import extractcomic
 import time
 import zipfile
 import hashlib
+import re
 
 UPLOAD_FOLDER = 'comics/unprocessed'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'cbz'])
@@ -30,8 +31,9 @@ def extractcomic(comicfile, comic_name):
     f = open(output+"/meta","w")
     f.write(comic_name+"\n")
     zf = zipfile.ZipFile(comicfile)
+    filenumber_rex = re.compile(r'[^\d]+')
     for file in zf.namelist():
-        filenumber = file.replace(".jpg", "")
+        filenumber = filenumber_rex.sub('',file)
         f.write("page"+str(int(filenumber).zfill(3))+":"+file+"\n")
         zf.extract(file, output)
     f.close
