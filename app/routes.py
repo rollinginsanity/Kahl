@@ -31,7 +31,7 @@ def extractcomic(comicfile, comic_name):
     zf = zipfile.ZipFile(comicfile)
     for file in zf.namelist():
         filenumber = file.replace(".jpg", "")
-        f.write("page"+str(int(filenumber).zfill(3)))+":"+file+"\n")
+        f.write("page"+str(int(filenumber).zfill(3))+":"+file+"\n")
         zf.extract(file, output)
     f.close
 
