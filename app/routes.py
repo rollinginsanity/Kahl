@@ -8,6 +8,7 @@ from rq import Queue
 from addf import extractcomic
 import time
 import zipfile
+import hashlib
 
 UPLOAD_FOLDER = 'comics/unprocessed'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'cbz'])
@@ -35,7 +36,7 @@ def upload():
         file = request.files['file']
         comic_name = request.form['comicname']
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
+            filename = hashlib.sha1(secure_filename(file.filename).encode).hexdigest()
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             redis_conn = Redis()
             q = Queue(connection=redis_conn)  # no args implies the default queue
