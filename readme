@@ -1,1 +1,6 @@
-Readme File Here
+Comic Book Library server
+Requirements:
+
+Redis
+Flask
+Python 3.4+
