@@ -29,7 +29,7 @@ def extractcomic(comicfile, comic_name):
     output = "comics/processed/"+comic_name_hex
     zf = zipfile.ZipFile(comicfile)
     filenumber_rex = re.compile(r'[^\d]+')
-    pages_in_comic[]
+    pages_in_comic = []
     for file in zf.namelist():
         filenumber = filenumber_rex.sub('',file)
         pages_in_comic.append("page"+str(int(filenumber).zfill(3))+":"+file+"\n")
