@@ -19,11 +19,22 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 #Extract Comic Books into a directory
+#The directory name is hashed
+#Add a metadata file with the comic name and the pages.
 def extractcomic(comicfile, comic_name):
+    comic_name_pre_hash = comic_name
+    comic_name_hashed = hashlib.sha1(comic_name_pre_hash.encode())
+    comic_name_hex = comic_name_hashed.hexdigest()
+    output = "comics/processed/"+comic_name_hex
+    f = open(output+"meta","w")
+    f.write(comic_name+"\n")
 	zf = zipfile.ZipFile(comicfile)
+    i = 1
 	for file in zf.namelist():
-		output = "comics/processed/"+comic_name
+        f.write("page"+i+":"+file+"\n")
+        i += 1
 		zf.extract(file, output)
+    f.close
 
 @app.route('/')
 @app.route('/index')
