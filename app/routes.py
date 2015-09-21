@@ -18,10 +18,10 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 #Extract Comic Books into a directory
-def extractcomic(comicfile):
+def extractcomic(comicfile, comic_name):
 	zf = zipfile.ZipFile(comicfile)
 	for file in zf.namelist():
-		output = "comics/processed/test2"
+		output = "comics/processed/"+comic_name
 		zf.extract(file, output)
 
 @app.route('/')
@@ -33,19 +33,21 @@ def index():
 def upload():
     if request.method == 'POST':
         file = request.files['file']
+        comic_name = request.form['comicname']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             redis_conn = Redis()
             q = Queue(connection=redis_conn)  # no args implies the default queue
-            job = q.enqueue(extractcomic, os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            job = q.enqueue(extractcomic, os.path.join(app.config['UPLOAD_FOLDER'], filename), comic_name)
             return redirect(url_for('index'))
     return '''
     <!doctype html>
     <title>Upload new File</title>
     <h1>Upload new File</h1>
     <form action="" method=post enctype=multipart/form-data>
-      <p><input type=file name=file>
-         <input type=submit value=Upload>
+      <p><input type="file" name="file"/>
+         <input type="text" name="comicname"/>
+         <input type="submit" value="Upload"/>
     </form>
     '''
