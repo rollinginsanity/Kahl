@@ -7,6 +7,7 @@ from redis import Redis
 from rq import Queue
 from addf import extractcomic
 import time
+import zipfile
 
 UPLOAD_FOLDER = 'comics/unprocessed'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'cbz'])
