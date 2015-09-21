@@ -20,3 +20,17 @@ A an area to upload comics
 -Upload .cbz file
 
 A task queue to process uploaded comics in asynch. (rq)
+
+Where things are at:
+====================
+
+* Comic upload and unzipping works now.
+* Metafile containing comic title and list of pages matched to the image numbers is working.
+
+Todo
+====
+
+* Build DB for metadata rather than use that damn hackjob of a metascript.
+* Build Library view with thumbnail images (GD or Imagemagik?)
+* Build comic display logic.
+* Build comic download functionality? (Maybe just store a reference to the uploaded archive...)
