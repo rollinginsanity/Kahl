@@ -38,7 +38,7 @@ def upload():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             redis_conn = Redis()
             q = Queue(connection=redis_conn)  # no args implies the default queue
-            job = q.enqueue(extractcomic, app.config['UPLOAD_FOLDER']+filename)
+            job = q.enqueue(extractcomic, app.config['UPLOAD_FOLDER/']+filename)
             return redirect(url_for('index'))
     return '''
     <!doctype html>
