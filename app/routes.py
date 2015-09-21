@@ -1,7 +1,7 @@
 #Some of the logic for the server.
 from app import app
 import os
-from flask import Flask, request, redirect, url_for
+from flask import request, redirect, url_for
 from werkzeug import secure_filename
 
 UPLOAD_FOLDER = 'comics/unprocessed'
