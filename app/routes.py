@@ -46,6 +46,8 @@ def extractcomic(comicfile, comic_name):
     pages_in_comic = []
 
     for file in zf.namelist():
+        if "MACOSX" in file:
+            continue
         filenumber = filenumber_rex.sub('',file)
         pages_in_comic.append(["page"+filenumber.zfill(3), file])
         zf.extract(file, output)
