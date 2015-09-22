@@ -22,7 +22,7 @@ if not os.path.isfile("comicdb"):
     conn = sqlite3.connect("comicdb")
     c = conn.cursor()
     c.execute('''CREATE TABLE comics(id text, title text)''')
-    c.execute('''CREATE TABLE pages(comic_id, page_number, page_file_name))''')
+    c.execute('''CREATE TABLE pages(comic_id, page_number, page_file_name)''')
 else:
     conn = sqlite3.connect("comicdb")
 
