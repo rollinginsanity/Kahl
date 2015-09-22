@@ -11,8 +11,9 @@ import zipfile
 import hashlib
 import re
 import sqlite3
+from PIL import Image
 
-UPLOAD_FOLDER = 'comics/unprocessed'
+UPLOAD_FOLDER = 'static/comics/unprocessed'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'cbz'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -23,6 +24,7 @@ if not os.path.isfile("comicdb"):
     c = conn.cursor()
     c.execute('''CREATE TABLE comics(id text, title text)''')
     c.execute('''CREATE TABLE pages(comic_id, page_number, page_file_name)''')
+    conn.commit()
 else:
     conn = sqlite3.connect("comicdb")
 
@@ -37,7 +39,7 @@ def extractcomic(comicfile, comic_name):
     comic_name_pre_hash = comic_name
     comic_name_hashed = hashlib.sha1(comic_name_pre_hash.encode())
     comic_name_hex = comic_name_hashed.hexdigest()
-    output = "comics/processed/"+comic_name_hex
+    output = "static/comics/processed/"+comic_name_hex
     zf = zipfile.ZipFile(comicfile)
     filenumber_rex = re.compile(r'[^\d]+')
 
@@ -52,18 +54,22 @@ def extractcomic(comicfile, comic_name):
     dbargs = (comic_name_hex, comic_name)
     c = conn.cursor()
     c.execute("INSERT INTO comics VALUES(?, ?)", dbargs)
-
+    first_image_name
     for page in pages_in_comic:
+        if page[0] == "page001":
+            first_image_name = page[1]
         dbargs = (comic_name_hex, page[0], page[1])
         c.execute("INSERT INTO pages VALUES(?,?,?)", dbargs)
-
     conn.commit()
     conn.close()
+    img = Image.open("static/comics/processed/"+comic_name_hex+"/"+first_image_name)
+    img.thumbnail((192, 192), Image.ANTIALIAS)
+    img.save("static/thumbs/"+comic_name_hex+"_thumb", "JPEG")
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template("index.html", content="Test")
+    return render_template("index.html", content="Test", pages=pages)
 
 #Takes an uploaded file and passes it off to an rq worker to be processed.
 #The filename of the uploaded file is hashed before saving, and taken by the rq worker
