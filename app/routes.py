@@ -10,10 +10,21 @@ import time
 import zipfile
 import hashlib
 import re
+import sqlite3
 
 UPLOAD_FOLDER = 'comics/unprocessed'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'cbz'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+#This bit of code is temporary until I figure out a nicer way to do it. It's the database.
+conn = ""
+if not os.path.isfile("comicdb"):
+    conn = sqlite3.connect("comicdb")
+    c = conn.cursor()
+    c.execute('''CREATE TABLE comics(id text, title text)''')
+    c.execute('''CREATE TABLE pages(comic_id, page_number, page_file_name))''')
+else:
+    conn = sqlite3.connect("comicdb")
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -22,7 +33,7 @@ def allowed_file(filename):
 #Extract Comic Books into a directory
 #The directory name is hashed
 #Add a metadata file with the comic name and the pages.
-def extractcomic(comicfile, comic_name):
+def extractcomic(comicfile, comic_name, connection):
     comic_name_pre_hash = comic_name
     comic_name_hashed = hashlib.sha1(comic_name_pre_hash.encode())
     comic_name_hex = comic_name_hashed.hexdigest()
@@ -39,6 +50,9 @@ def extractcomic(comicfile, comic_name):
     for page in pages_in_comic:
         f.write(page+"\n")
     f.close
+    c = connection.cursor()
+    c.execute("INSERT INTO comics VALUES(?, ?)", comic_name_hashed, comic_name)
+
 
 @app.route('/')
 @app.route('/index')
@@ -60,7 +74,7 @@ def upload():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename_hex))
             redis_conn = Redis()
             q = Queue(connection=redis_conn)  # no args implies the default queue
-            job = q.enqueue(extractcomic, os.path.join(app.config['UPLOAD_FOLDER'], filename_hex), comic_name)
+            job = q.enqueue(extractcomic, os.path.join(app.config['UPLOAD_FOLDER'], filename_hex), comic_name, conn)
             return redirect(url_for('index'))
     return '''
     <!doctype html>
