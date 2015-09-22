@@ -74,7 +74,8 @@ def index():
     rows = c.execute("SELECT * FROM comics")
     comics = []
     for row in rows:
-        comics.append(row[1])
+        comics.append(row)
+    print(comics)    
     return render_template("index.html", comiclist=comics)
 
 #Takes an uploaded file and passes it off to an rq worker to be processed.
