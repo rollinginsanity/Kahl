@@ -54,7 +54,7 @@ def extractcomic(comicfile, comic_name):
     dbargs = (comic_name_hex, comic_name)
     c = conn.cursor()
     c.execute("INSERT INTO comics VALUES(?, ?)", dbargs)
-    first_image_name
+    first_image_name = ""
     for page in pages_in_comic:
         if page[0] == "page001":
             first_image_name = page[1]
@@ -69,7 +69,7 @@ def extractcomic(comicfile, comic_name):
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template("index.html", content="Test", pages=pages)
+    return render_template("index.html", content="Test")
 
 #Takes an uploaded file and passes it off to an rq worker to be processed.
 #The filename of the uploaded file is hashed before saving, and taken by the rq worker
