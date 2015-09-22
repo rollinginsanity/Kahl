@@ -13,7 +13,7 @@ import re
 import sqlite3
 from PIL import Image
 
-UPLOAD_FOLDER = 'static/comics/unprocessed'
+UPLOAD_FOLDER = 'app/static/comics/unprocessed'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'cbz'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -39,7 +39,7 @@ def extractcomic(comicfile, comic_name):
     comic_name_pre_hash = comic_name
     comic_name_hashed = hashlib.sha1(comic_name_pre_hash.encode())
     comic_name_hex = comic_name_hashed.hexdigest()
-    output = "static/comics/processed/"+comic_name_hex
+    output = "app/static/comics/processed/"+comic_name_hex
     zf = zipfile.ZipFile(comicfile)
     filenumber_rex = re.compile(r'[^\d]+')
 
@@ -62,9 +62,9 @@ def extractcomic(comicfile, comic_name):
         c.execute("INSERT INTO pages VALUES(?,?,?)", dbargs)
     conn.commit()
     conn.close()
-    img = Image.open("static/comics/processed/"+comic_name_hex+"/"+first_image_name)
+    img = Image.open("app/static/comics/processed/"+comic_name_hex+"/"+first_image_name)
     img.thumbnail((192, 192), Image.ANTIALIAS)
-    img.save("static/thumbs/"+comic_name_hex+"_thumb.jpg", "JPEG")
+    img.save("app/static/thumbs/"+comic_name_hex+"_thumb.jpg", "JPEG")
 
 @app.route('/')
 @app.route('/index')
@@ -75,7 +75,7 @@ def index():
     comics = []
     for row in rows:
         comics.append(row)
-    print(comics)    
+    print(comics)
     return render_template("index.html", comiclist=comics)
 
 #Takes an uploaded file and passes it off to an rq worker to be processed.
