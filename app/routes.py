@@ -72,6 +72,8 @@ def index():
     conn = sqlite3.connect("comicdb")
     c = conn.cursor()
     rows = c.execute("SELECT * FROM comics")
+    for row in rows:
+        print(row)
     return render_template("index.html", comiclist=rows)
 
 #Takes an uploaded file and passes it off to an rq worker to be processed.

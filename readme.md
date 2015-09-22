@@ -37,3 +37,5 @@ Todo
 * Build Library view with thumbnail images (GD or Imagemagik?)
 * Build comic display logic.
 * Build comic download functionality? (Maybe just store a reference to the uploaded archive...)
+<br />
+<img src="{{url_for('static', 'thumbs/'+comic[id]+'_thumb.jpg')}}" />
