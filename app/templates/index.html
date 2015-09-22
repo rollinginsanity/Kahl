@@ -4,5 +4,6 @@
       {{ comic[1] }}
       <br />
       <img src="{{url_for('static', filename='thumbs/'+comic[0]+'_thumb.jpg')}}" />
+      <br />
       {% endfor %}
 {% endblock %}
