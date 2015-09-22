@@ -63,7 +63,7 @@ def extractcomic(comicfile, comic_name):
 @app.route('/')
 @app.route('/index')
 def index():
-    returnrender_template{"index.html", content="Test"}
+    returnrender_template("index.html", content="Test")
 
 #Takes an uploaded file and passes it off to an rq worker to be processed.
 #The filename of the uploaded file is hashed before saving, and taken by the rq worker
