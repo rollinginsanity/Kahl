@@ -40,27 +40,30 @@ def extractcomic(comicfile, comic_name):
     output = "comics/processed/"+comic_name_hex
     zf = zipfile.ZipFile(comicfile)
     filenumber_rex = re.compile(r'[^\d]+')
+
     pages_in_comic = []
+
     for file in zf.namelist():
         filenumber = filenumber_rex.sub('',file)
-        pages_in_comic.append("page"+filenumber.zfill(3)+":"+file+"\n")
+        pages_in_comic.append(["page"+filenumber.zfill(3), file])
         zf.extract(file, output)
-    f = open(output+"/meta","w")
-    f.write(comic_name+"\n")
-    for page in pages_in_comic:
-        f.write(page+"\n")
-    f.close
+
     conn = sqlite3.connect("comicdb")
     dbargs = (comic_name_hex, comic_name)
     c = conn.cursor()
     c.execute("INSERT INTO comics VALUES(?, ?)", dbargs)
+
+    for page in pages_in_comic:
+        dbargs = (comic_name_hex, page[0], page[2])
+        c.execute("INSERT INTO pages(?,?,?)", dbargs)
+
     conn.commit()
     conn.close()
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Does it work?"
+    returnrender_template{"index.html", content="Test"}
 
 #Takes an uploaded file and passes it off to an rq worker to be processed.
 #The filename of the uploaded file is hashed before saving, and taken by the rq worker
