@@ -1,7 +1,7 @@
 #Some of the logic for the server.
 from app import app
 import os
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, render_template
 from werkzeug import secure_filename
 from redis import Redis
 from rq import Queue
