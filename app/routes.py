@@ -72,7 +72,7 @@ def index():
     conn = sqlite3.connect("comicdb")
     c = conn.cursor()
     rows = c.execute("SELECT * FROM comics")
-    return render_template("index.html", content="Test", comiclist=rows)
+    return render_template("index.html", comiclist=rows)
 
 #Takes an uploaded file and passes it off to an rq worker to be processed.
 #The filename of the uploaded file is hashed before saving, and taken by the rq worker

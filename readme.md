@@ -4,6 +4,9 @@ Requirements:
 Redis
 Flask
 Python 3.4+
+python-dev
+libjpeg-dev
+PIL
 
 High Level Architecture
 =======================
