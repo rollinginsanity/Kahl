@@ -57,6 +57,7 @@ def extractcomic(comicfile, comic_name):
     c = conn.cursor()
     c.execute("INSERT INTO comics VALUES(?, ?)", dbargs)
     first_image_name = ""
+    #This might solve the below issues: http://stackoverflow.com/questions/4836710/does-python-have-a-built-in-function-for-string-natural-sort
     for page in pages_in_comic:
         if page[0] == "page001":
             first_image_name = page[1]
