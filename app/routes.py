@@ -18,15 +18,15 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'cbz'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 #This bit of code is temporary until I figure out a nicer way to do it. It's the database.
-conn = ""
+
 if not os.path.isfile("comicdb"):
     conn = sqlite3.connect("comicdb")
     c = conn.cursor()
     c.execute('''CREATE TABLE comics(id text, title text)''')
     c.execute('''CREATE TABLE pages(comic_id, page_number, page_file_name)''')
     conn.commit()
-else:
-    conn = sqlite3.connect("comicdb")
+    conn.close()
+
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -64,12 +64,15 @@ def extractcomic(comicfile, comic_name):
     conn.close()
     img = Image.open("static/comics/processed/"+comic_name_hex+"/"+first_image_name)
     img.thumbnail((192, 192), Image.ANTIALIAS)
-    img.save("static/thumbs/"+comic_name_hex+"_thumb", "JPEG")
+    img.save("static/thumbs/"+comic_name_hex+"_thumb.jpg", "JPEG")
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template("index.html", content="Test")
+    conn = sqlite3.connect("comicdb")
+    c = conn.cursor()
+    rows = c.execute("SELECT * FROM comics")
+    return render_template("index.html", content="Test", comiclist=rows)
 
 #Takes an uploaded file and passes it off to an rq worker to be processed.
 #The filename of the uploaded file is hashed before saving, and taken by the rq worker

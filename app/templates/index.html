@@ -1,4 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
     {{ content }}
+      {% for comic in comiclist %}
+      {{ comic[title] }}
+      <br />
+      <img src="{{url_for('static', 'thumbs/'+comic[id]+'_thumb.jpg')}}" />
+    {% endfor %}
 {% endblock %}

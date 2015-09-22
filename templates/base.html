@@ -1,0 +1,14 @@
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - ComicLib</title>
+    {% else %}
+    <title>ComicLib</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>ComicLib <a href="/index">Home</a> <a href="/upload">Upload</a></div>
+    <hr>
+    {% block content %}{% endblock %}
+  </body>
+</html>
