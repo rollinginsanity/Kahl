@@ -51,7 +51,7 @@ def extractcomic(comicfile, comic_name):
         f.write(page+"\n")
     f.close
     conn = sqlite3.connect("comicdb")
-    dbargs = (comic_name_hashed, comic_name)
+    dbargs = (comic_name_hex, comic_name)
     c = conn.cursor()
     c.execute("INSERT INTO comics VALUES(?, ?)", dbargs)
     conn.commit()
