@@ -3,6 +3,6 @@
       {% for comic in comiclist %}
       {{ comic[1] }}
       <br />
-      <img src="{{url_for('static', 'thumbs/'+comic[0]+'_thumb.jpg')}}" />
+      <img src="{{url_for('static', filename='thumbs/'+comic[0]+'_thumb.jpg')}}" />
       {% endfor %}
 {% endblock %}
