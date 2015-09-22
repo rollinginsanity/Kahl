@@ -33,7 +33,7 @@ def allowed_file(filename):
 #Extract Comic Books into a directory
 #The directory name is hashed
 #Add a metadata file with the comic name and the pages.
-def extractcomic(comicfile, comic_name, connection):
+def extractcomic(comicfile, comic_name):
     comic_name_pre_hash = comic_name
     comic_name_hashed = hashlib.sha1(comic_name_pre_hash.encode())
     comic_name_hex = comic_name_hashed.hexdigest()
@@ -50,9 +50,11 @@ def extractcomic(comicfile, comic_name, connection):
     for page in pages_in_comic:
         f.write(page+"\n")
     f.close
-    c = connection.cursor()
+    conn = sqlite3.connect("comicdb")
+    c = conn.cursor()
     c.execute("INSERT INTO comics VALUES(?, ?)", comic_name_hashed, comic_name)
-
+    conn.commit()
+    conn.close()
 
 @app.route('/')
 @app.route('/index')
