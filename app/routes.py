@@ -55,7 +55,7 @@ def extractcomic(comicfile, comic_name):
 
     for page in pages_in_comic:
         dbargs = (comic_name_hex, page[0], page[1])
-        c.execute("INSERT INTO pages(?,?,?)", dbargs)
+        c.execute("INSERT INTO pages VALUES(?,?,?)", dbargs)
 
     conn.commit()
     conn.close()
