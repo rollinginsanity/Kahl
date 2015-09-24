@@ -50,7 +50,8 @@ def extractcomic(comicfile, comic_name):
     filenumber_rex = re.compile(r'[^\d]+')
 
     pages_in_comic = []
-    files = natural_sort(zf.namelist)
+    zipfiles = zf.namelist()
+    files = natural_sort(zipfiles)
     i = 1
     for file in files:
         if "MACOSX" in file:
