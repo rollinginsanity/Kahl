@@ -23,7 +23,7 @@ if not os.path.isfile("comicdb"):
     conn = sqlite3.connect("comicdb")
     c = conn.cursor()
     c.execute('''CREATE TABLE comics(id text, title text)''')
-    c.execute('''CREATE TABLE pages(comic_id, page_number, page_file_name)''')
+    c.execute('''CREATE TABLE pages(comic_id text, page_number integer, page_file_name text)''')
     conn.commit()
     conn.close()
 
@@ -50,22 +50,24 @@ def extractcomic(comicfile, comic_name):
     filenumber_rex = re.compile(r'[^\d]+')
 
     pages_in_comic = []
-    print(natural_sort(zf.namelist))
-    for file in zf.namelist():
+    files = natural_sort(zf.namelist)
+    i = 1
+    for file in files:
         if "MACOSX" in file:
             continue
-        filenumber = filenumber_rex.sub('',file)
-        pages_in_comic.append(["page"+filenumber.zfill(3), file])
+
+        pages_in_comic.append([i, file])
         zf.extract(file, output)
+        i += 1
 
     conn = sqlite3.connect("comicdb")
     dbargs = (comic_name_hex, comic_name)
     c = conn.cursor()
     c.execute("INSERT INTO comics VALUES(?, ?)", dbargs)
     first_image_name = ""
-    #This might solve the below issues: http://stackoverflow.com/questions/4836710/does-python-have-a-built-in-function-for-string-natural-sort
+    #To change, once a file is uploaded, allow a user to set the proper first page. Still need to add that to the metadata, will come later.
     for page in pages_in_comic:
-        if page[0] == "page001":
+        if page[0] == 1:
             first_image_name = page[1]
         dbargs = (comic_name_hex, page[0], page[1])
         c.execute("INSERT INTO pages VALUES(?,?,?)", dbargs)
