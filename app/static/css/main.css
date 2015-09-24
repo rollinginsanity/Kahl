@@ -16,5 +16,13 @@
 }
 
 body {
-  background-color: #cccccc;
+  background-color: #222;
+}
+
+.back-button {
+  z-index: 2;
+}
+
+.forward-button {
+  z-index: 2;
 }
