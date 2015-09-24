@@ -121,4 +121,15 @@ def upload():
 #View the pages in a comic book:
 @app.route('/viewcomic/<comic_key>/page/<int:page_num>', methods=['GET'])
 def view_comic(comic_key, page_num):
-    return comic_key+str(page_num)
+
+    conn = sqlite3.connect("comicdb")
+    c = conn.cursor()
+    dbargs = (comic_key, page_num)
+    pages = c.execute("SELECT * FROM pages WHERE comic_id = ? AND page_number = ?", dbargs)
+    str_pages = ""
+    for page in pages:
+        str_pages += page
+
+    return str_pages
+
+    #return render_template("viewcomic.html", page_number=page_number, page_file=page_file)
