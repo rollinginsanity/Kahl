@@ -121,4 +121,4 @@ def upload():
 #View the pages in a comic book:
 @app.route('/viewcomic/<comic_key>/page/<int:page_num>', methods=['GET'])
 def view_comic(comic_key, page_num):
-    return comic_key+page_num
+    return comic_key+str(page_num)
