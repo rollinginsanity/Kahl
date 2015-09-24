@@ -125,11 +125,7 @@ def view_comic(comic_key, page_num):
     conn = sqlite3.connect("comicdb")
     c = conn.cursor()
     dbargs = (comic_key, page_num)
-    pages = c.execute("SELECT * FROM pages WHERE comic_id = ? AND page_number = ?", dbargs)
-    str_pages = ""
-    for page in pages:
-        str_pages += page
+    c.execute("SELECT * FROM pages WHERE comic_id = ? AND page_number = ?", dbargs)
+    page = c.fetchone()
 
-    return str_pages
-
-    #return render_template("viewcomic.html", page_number=page_number, page_file=page_file)
+    return render_template("viewcomic.html", comic_key=page[0], page_number=page[1], page_file=page[2])
