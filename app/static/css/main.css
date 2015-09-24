@@ -8,7 +8,7 @@
 }
 
 .spacer {
-  height: 20px;
+  min-height: 20px;
 }
 
 .view-img-div {
