@@ -27,6 +27,12 @@ if not os.path.isfile("comicdb"):
     conn.commit()
     conn.close()
 
+#From here: http://stackoverflow.com/a/4836734
+#Used to sort the comic file list.
+def natural_sort(l):
+    convert = lambda text: int(text) if text.isdigit() else text.lower()
+    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ]
+    return sorted(l, key = alphanum_key)
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -44,7 +50,7 @@ def extractcomic(comicfile, comic_name):
     filenumber_rex = re.compile(r'[^\d]+')
 
     pages_in_comic = []
-
+    print(natural_sort(zf.namelist))
     for file in zf.namelist():
         if "MACOSX" in file:
             continue
