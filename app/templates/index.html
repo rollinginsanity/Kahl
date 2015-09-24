@@ -4,7 +4,7 @@
 
       {% for comic in comiclist %}
 
-      <div class="col-md-4" style="margin: 0 auto;">
+      <div class="col-md-4" style="margin:auto;">
 
       <br />
       <a href="/viewcomic/{{ comic[0] }}/page/1"><img src="{{url_for('static', filename='thumbs/'+comic[0]+'_thumb.jpg')}}" /></a>
