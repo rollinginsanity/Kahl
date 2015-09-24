@@ -107,16 +107,7 @@ def upload():
             q = Queue(connection=redis_conn)  # no args implies the default queue
             job = q.enqueue(extractcomic, os.path.join(app.config['UPLOAD_FOLDER'], filename_hex), comic_name)
             return redirect(url_for('index'))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form action="" method=post enctype=multipart/form-data>
-      <p><input type="file" name="file"/>
-         <input type="text" name="comicname"/>
-         <input type="submit" value="Upload"/>
-    </form>
-    '''
+    return render_template("upload.html")
 
 #View the pages in a comic book:
 @app.route('/viewcomic/<comic_key>/page/<int:page_num>', methods=['GET'])
