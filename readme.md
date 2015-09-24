@@ -4,6 +4,7 @@ Todo: Make prettier
 Better metadata
 Better navigation
 Ajax muchly
+Remove menu bar from browse mode.
 
 
 
