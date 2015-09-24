@@ -3,6 +3,6 @@
 {{ comic_key }}
 {{ page_number }}
 {{ page_file }}
-<img src="{{url_for('static', filename='processed/'+comic_key+'/'+page_file)}}" />
+<img src="{{url_for('static', filename='comics/processed/'+comic_key+'/'+page_file)}}" />
 <a href="/viewcomic/{{ comic_key }}/page/{{ page_number+1 }}">Next</a>
 {% endblock %}
