@@ -1,3 +1,14 @@
+THE PROOF OF CONCEPT works
+
+Todo: Make prettier
+Better metadata
+Better navigation
+Ajax muchly
+
+
+
+-------
+
 Comic Book Library server
 Requirements:
 
