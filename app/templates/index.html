@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
       {% for comic in comiclist %}
-      {{ comic[1] }}
+      <a href="/viewcomic/{{ comic[0] }}/page/1">{{ comic[1] }}</a>
       <br />
       <img src="{{url_for('static', filename='thumbs/'+comic[0]+'_thumb.jpg')}}" />
       <br />
