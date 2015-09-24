@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     {% if title %}
@@ -5,10 +6,23 @@
     {% else %}
     <title>ComicLib</title>
     {% endif %}
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <!-- Using bootstrap for now. -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   </head>
   <body>
     <div>ComicLib <a href="/index">Home</a> <a href="/upload">Upload</a></div>
     <hr>
+    <div class="container">
     {% block content %}{% endblock %}
+    </div>
   </body>
 </html>

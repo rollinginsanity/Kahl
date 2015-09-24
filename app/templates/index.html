@@ -1,9 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="row">
+
       {% for comic in comiclist %}
+
+      <div class="col-md-4">
       <a href="/viewcomic/{{ comic[0] }}/page/1">{{ comic[1] }}</a>
       <br />
       <img src="{{url_for('static', filename='thumbs/'+comic[0]+'_thumb.jpg')}}" />
       <br />
+      </div>
       {% endfor %}
+
+</div>
 {% endblock %}
