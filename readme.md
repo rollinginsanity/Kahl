@@ -10,7 +10,7 @@ Read the requirements.txt file for the specific requirements for python modules,
 * Go to the root folder for the app, and run worker.py and run.py.
 * Go to yourhostname:5000/upload and upload a comic.
 * You will be redirected to /index, refresh the page until your comic appears (the processing is offloaded to a worker process, it can take a sec or two)
-* Your comic should appear. Click on it. The is probably the most (and only) polished but so far. Click on the right hand side of the screen to go forward a page, the left side to go back, the top to go back to /index.
+* Your comic should appear. Click on it. The is probably the most (and only) polished bit so far. Click on the right hand side of the screen to go forward a page, the left side to go back, the top to go back to /index.
 
 Gotchas:
 
