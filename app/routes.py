@@ -22,7 +22,21 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 if not os.path.isfile("comicdb"):
     conn = sqlite3.connect("comicdb")
     c = conn.cursor()
-    c.execute('''CREATE TABLE comics(id text, title text)''')
+    ###PoC Datamodel
+    ###Comics:
+    ###     id - A hash of the filename
+    ###     title - The name of the Comic
+    ###     author - The author
+    ###     Artist - The artist of the comic
+    ###     genre - ie Sci Fi, Fantast...
+    ###     series - The series the comic is in
+    ###     franchise - Star Wars, Mass Effect, Marvel etc...
+    ###     Issue_num - The issue of the comic within it's volume
+    ###     volume_num - The volume of the comic.
+    ###
+    ###
+    ###
+    c.execute('''CREATE TABLE comics(id text, title text, author text, artist text, genre text, series text, franchise text, issue_num integer, volume_num integer)''')
     c.execute('''CREATE TABLE pages(comic_id text, page_number integer, page_file_name text)''')
     conn.commit()
     conn.close()
