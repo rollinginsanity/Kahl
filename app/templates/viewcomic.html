@@ -22,13 +22,12 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
   </head>
   <body>
-    <div class="container">
-      <div class="view-img-div">
+
       <img src="{{url_for('static', filename='comics/processed/'+comic_key+'/'+page_file)}}" class="center-block" style="max-width:100vw;"  />
       <br />
-    </div>
-  </div>
+
   <div class="last-page" onclick="{% if page_number > 1 %}location.href='/viewcomic/{{ comic_key }}/page/{{ page_number-1 }}';{% endif %}"></div>
   <div class="next-page" onclick="location.href='/viewcomic/{{ comic_key }}/page/{{ page_number+1 }}';"></div>
+  <div class="top-bar"></div>
   </body>
 </html>
