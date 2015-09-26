@@ -119,4 +119,7 @@ def view_comic(comic_key, page_num):
     c.execute("SELECT * FROM pages WHERE comic_id = ? AND page_number = ?", dbargs)
     page = c.fetchone()
 
+    if page[0] == None:
+        return redirect(url_for('index'))
+
     return render_template("viewcomic.html", comic_key=page[0], page_number=page[1], page_file=page[2])
