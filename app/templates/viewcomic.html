@@ -26,12 +26,13 @@
       <div class="view-img-div">
       <img src="{{url_for('static', filename='comics/processed/'+comic_key+'/'+page_file)}}" class="center-block" style="height:100vh;" onclick="location.href='/viewcomic/{{ comic_key }}/page/{{ page_number+1 }}'"; />
       <br />
-      <div class="previous-page"></div>
-      <div class="next-comic"></div>
+
       {% if page_number > 0 %}
 
       {% endif %}
     </div>
   </div>
+  <div class="previous-page"></div>
+  <div class="next-comic"></div>
   </body>
 </html>
