@@ -5,7 +5,6 @@ from flask import request, redirect, url_for, render_template
 from werkzeug import secure_filename
 from redis import Redis
 from rq import Queue
-from addf import extractcomic
 import time
 import zipfile
 import hashlib
