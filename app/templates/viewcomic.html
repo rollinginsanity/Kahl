@@ -1,10 +1,37 @@
-{% extends "base.html" %}
-{% block content %}
-  <div class="view-img-div">
-  <img src="{{url_for('static', filename='comics/processed/'+comic_key+'/'+page_file)}}" class="center-block" style="height:90vh;" onclick="location.href='/viewcomic/{{ comic_key }}/page/{{ page_number+1 }}'"; />
-  <br />
-  {% if page_number > 0 %}
-    <a href="/viewcomic/{{ comic_key }}/page/{{ page_number-1 }}">previous</a>
-  {% endif %}
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - ComicLib</title>
+    {% else %}
+    <title>ComicLib</title>
+    {% endif %}
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+    <!-- Using bootstrap for now. -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+  </head>
+  <body>
+    <div class="container">
+      <div class="view-img-div">
+      <img src="{{url_for('static', filename='comics/processed/'+comic_key+'/'+page_file)}}" class="center-block" style="height:100vh;" onclick="location.href='/viewcomic/{{ comic_key }}/page/{{ page_number+1 }}'"; />
+      <br />
+      <div class="previous-page"></div>
+      <div class="next-comic"></div>
+      {% if page_number > 0 %}
+
+      {% endif %}
+    </div>
+  </div>
+  </body>
+</html>
