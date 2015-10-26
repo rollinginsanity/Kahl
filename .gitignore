@@ -1,5 +1,5 @@
-app/static/comics
+app/static/comics/*
 comicdb
 style-testing/
 style-testing/imgs
-app/static/thumbs
+app/static/thumbs/*
