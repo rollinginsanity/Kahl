@@ -4,4 +4,4 @@ style-testing/
 style-testing/imgs
 app/static/thumbs/*
 __pycache__/
-.DS_Store/
+.DS_Store
