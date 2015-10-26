@@ -77,7 +77,7 @@ def extractcomic(comicfile, comic_name):
     conn = sqlite3.connect("comicdb")
     dbargs = (comic_name_hex, comic_name)
     c = conn.cursor()
-    c.execute("INSERT INTO comics VALUES(?, ?)", dbargs)
+    c.execute("INSERT INTO comics VALUES(?, ?, '', '', '', '', '', '', '')", dbargs)
     first_image_name = ""
     #To change, once a file is uploaded, allow a user to set the proper first page. Still need to add that to the metadata, will come later.
     for page in pages_in_comic:

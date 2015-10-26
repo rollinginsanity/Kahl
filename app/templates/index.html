@@ -4,15 +4,16 @@
 
       {% for comic in comiclist %}
 
-      <div class="col-md-4 comic-div">
-        <div class="spacer"></div>
-        <div class="comic-image-div">
-          <a href="/viewcomic/{{ comic[0] }}/page/1"><img src="{{url_for('static', filename='thumbs/'+comic[0]+'_thumb.jpg')}}" /></a>
+        <div class="col-md-3 comic-div">
+          <div class="thumbnail">
+            <a href="/viewcomic/{{ comic[0] }}/page/1" class="thumbnail"><img src="{{url_for('static', filename='thumbs/'+comic[0]+'_thumb.jpg')}}" class="comic-image opacitywk"/></a>
+            <div class="caption">
+              <a href="/viewcomic/{{ comic[0] }}/page/1">{{ comic[1] }}</a>
+            </div>
+          </div>
+          <br />
         </div>
-        <a href="/viewcomic/{{ comic[0] }}/page/1">{{ comic[1] }}</a>
-        <br />
 
-      </div>
       {% endfor %}
 
 </div>

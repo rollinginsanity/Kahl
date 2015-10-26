@@ -16,7 +16,7 @@
 }
 
 body {
-  background-color: #222;
+  background-color: #FFF;
 }
 
 .last-page {
@@ -45,3 +45,59 @@ body {
   left: 30vw;
   height: 20vh;
 }
+
+.splash-page-bg {
+  background-image: url("imgs/background.jpg");
+  background-position: center;
+}
+
+.signin-container-bg {
+  background-color: rgb(232, 232, 232);
+}
+
+.shadow {
+   -moz-box-shadow:    inset 0 0 10px #000000;
+   -webkit-box-shadow: inset 0 0 10px #000000;
+   box-shadow:         inset 0 0 10px #000000;
+}
+
+.inner-shadow {
+   -moz-box-shadow:    inset 0 0 10px #000000;
+   -webkit-box-shadow: inset 0 0 10px #000000;
+   box-shadow:         inset 0 0 10px #000000;
+}
+
+.comic-image {
+  border: 1px solid #CCC;
+}
+
+.comic-image:hover {
+  -moz-box-shadow:    inset 0 0 10px #000000;
+  -webkit-box-shadow: inset 0 0 10px #000000;
+  box-shadow:         inset 0 0 10px #000000;
+}
+
+.opacitywk {
+	opacity: 1;
+         background-color: black;
+	}
+.opacitywk:hover {
+  opacity: 0.6;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
+  transition: all 0.3s ease-in-out 0s;
+  -moz-transition: all 0.3s ease-in-out 0s;
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  -o-transition: all 0.3s ease-in-out 0s;
+  -ms-transition: all 0.3s ease-in-out 0s;
+	}
+
+
+  .user-image-circular {
+  	width: 30px;
+  	height: 30px;
+  	border-radius: 15px;
+  	-webkit-border-radius: 15px;
+  	-moz-border-radius: 15px;
+  	background: url("imgs/usrlogo.jpg") no-repeat;
+  	}

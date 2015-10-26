@@ -5,6 +5,7 @@ Currently this is a pre-pre-pre-pre-pre-alpha build for a web based comic book r
 
 Read the requirements.txt file for the specific requirements for python modules, but in general, to get this thing going as fast as possible:
 * Get a server, install python 3.4+ (or find one you already have.)
+* Install libjpeg, and pillow. 
 * Install redis.
 * Run redis-server
 * Go to the root folder for the app, and run worker.py and run.py.
