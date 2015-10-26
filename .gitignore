@@ -3,3 +3,4 @@ comicdb
 style-testing/
 style-testing/imgs
 app/static/thumbs/*
+__pycache__/
