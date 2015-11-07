@@ -101,7 +101,18 @@ def index():
     for row in rows:
         comics.append(row)
     print(comics)
-    return render_template("index.html", comiclist=comics)
+    return render_template("index_main.html", comiclist=comics)
+
+@app.route('/comiclist')
+def index_comiclist():
+    conn = sqlite3.connect("comicdb")
+    c = conn.cursor()
+    rows = c.execute("SELECT * FROM comics")
+    comics = []
+    for row in rows:
+        comics.append(row)
+    print(comics)
+    return render_template("index_comiclist.html", comiclist=comics)
 
 #Takes an uploaded file and passes it off to an rq worker to be processed.
 #The filename of the uploaded file is hashed before saving, and taken by the rq worker

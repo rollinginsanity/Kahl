@@ -6,10 +6,12 @@
     {% else %}
     <title>Kahl</title>
     {% endif %}
+    <script src="{{url_for('static', filename='jscript/jquery.js')}}"></script>
     <script src="{{url_for('static', filename='bootstrap/js/bootstrap.min.js')}}"></script>
+
     <link rel="stylesheet" href="{{url_for('static', filename='bootstrap/css/bootstrap.css')}}" />
     <link rel="stylesheet" href="{{url_for('static', filename='bootstrap/css/bootstrap-theme.css')}}" />
-    <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
 
   </head>
   <body>
@@ -32,7 +34,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a href="#">Home</a></li>
-            <li><a href="#">Upload</a></li>
+            <li><a href="/upload">Upload</a></li>
           </ul>
           <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
@@ -57,5 +59,11 @@
     <div class="container">
     {% block content %}{% endblock %}
     </div>
+    <script>
+    $( "#comicIndex" ).load( "/comiclist" );
+    window.setInterval(function() {
+      $( "#comicIndex" ).load( "/comiclist" );
+    }, 10000);
+    </script>
   </body>
 </html>
