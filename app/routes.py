@@ -18,9 +18,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 #This bit of code is temporary until I figure out a nicer way to do it. It's the database.
 
-if not os.path.isfile("comicdb"):
-    conn = sqlite3.connect("comicdb")
-    c = conn.cursor()
+#if not os.path.isfile("comicdb"):
+#    conn = sqlite3.connect("comicdb")
+#    c = conn.cursor()
     ###PoC Datamodel
     ###Comics:
     ###     id - A hash of the filename
@@ -35,10 +35,10 @@ if not os.path.isfile("comicdb"):
     ###
     ###
     ###
-    c.execute('''CREATE TABLE comics(id text, title text, author text, artist text, genre text, series text, franchise text, issue_num integer, volume_num integer)''')
-    c.execute('''CREATE TABLE pages(comic_id text, page_number integer, page_file_name text)''')
-    conn.commit()
-    conn.close()
+#    c.execute('''CREATE TABLE comics(id text, title text, author text, artist text, genre text, series text, franchise text, issue_num integer, volume_num integer)''')
+#    c.execute('''CREATE TABLE pages(comic_id text, page_number integer, page_file_name text)''')
+#    conn.commit()
+#    conn.close()
 
 #From here: http://stackoverflow.com/a/4836734
 #Used to sort the comic file list.
@@ -75,10 +75,10 @@ def extractcomic(comicfile, comic_name):
         zf.extract(file, output)
         i += 1
 
-    conn = sqlite3.connect("comicdb")
-    dbargs = (comic_name_hex, comic_name)
-    c = conn.cursor()
-    c.execute("INSERT INTO comics VALUES(?, ?, '', '', '', '', '', '', '')", dbargs)
+    #conn = sqlite3.connect("comicdb")
+    #dbargs = (comic_name_hex, comic_name)
+    #c = conn.cursor()
+    #c.execute("INSERT INTO comics VALUES(?, ?, '', '', '', '', '', '', '')", dbargs)
 
     #SQLAlchemy Stuff (Yes, running side by side...)
     comic_sa = models.Comic(cb_hash=comic_name_hex, title=comic_name)
@@ -89,15 +89,15 @@ def extractcomic(comicfile, comic_name):
     for page in pages_in_comic:
         if page[0] == 1:
             first_image_name = page[1]
-        dbargs = (comic_name_hex, page[0], page[1])
-        c.execute("INSERT INTO pages VALUES(?,?,?)", dbargs)
+        #dbargs = (comic_name_hex, page[0], page[1])
+        #c.execute("INSERT INTO pages VALUES(?,?,?)", dbargs)
         #SQLAlchemy stuff again.
         page_sa = models.Page(cb_hash=comic_name_hex, page_num=page[0], page_file=page[1])
         print(page_sa)
         db.session.add(page_sa)
     db.session.commit()
-    conn.commit()
-    conn.close()
+    #conn.commit()
+    #conn.close()
     img = Image.open("app/static/comics/processed/"+comic_name_hex+"/"+first_image_name)
     img.thumbnail((192, 192), Image.ANTIALIAS)
     img.save("app/static/thumbs/"+comic_name_hex+"_thumb.jpg", "JPEG")
