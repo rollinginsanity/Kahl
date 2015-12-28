@@ -1,6 +1,6 @@
 [![Stories in Ready](https://badge.waffle.io/rollinginsanity/Kahl.png?label=ready&title=Ready)](https://waffle.io/rollinginsanity/Kahl)
 
-[Go to the Site for Kahl](http://rollinginsanity.github.io)
+[Go to the Site for Kahl](http://rollinginsanity.github.io/Kahl)
 
 ![Screenshot of Kahl](http://rollinginsanity.github.io/Kahl/images/screeny.png)
 
