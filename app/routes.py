@@ -105,19 +105,13 @@ def extractcomic(comicfile, comic_name):
 @app.route('/')
 @app.route('/index')
 def index():
-    conn = sqlite3.connect("comicdb")
-    c = conn.cursor()
-    rows = c.execute("SELECT * FROM comics")
-    comics = []
-    for row in rows:
-        comics.append(row)
-    print(comics)
-    return render_template("index_main.html", comiclist=comics)
+    #comics = models.Comic.query.all()
+    return render_template("index_main.html")#, comiclist=comics)
 
 @app.route('/comiclist')
 def index_comiclist():
-    comics_sa = models.Comic.query.all()
-    return render_template("index_comiclist.html", comiclist=comics_sa)
+    comics = models.Comic.query.all()
+    return render_template("index_comiclist.html", comiclist=comics)
 
 #Takes an uploaded file and passes it off to an rq worker to be processed.
 #The filename of the uploaded file is hashed before saving, and taken by the rq worker
@@ -142,13 +136,9 @@ def upload():
 @app.route('/viewcomic/<comic_key>/page/<int:page_num>', methods=['GET'])
 def view_comic(comic_key, page_num):
 
-    conn = sqlite3.connect("comicdb")
-    c = conn.cursor()
-    dbargs = (comic_key, page_num)
-    c.execute("SELECT * FROM pages WHERE comic_id = ? AND page_number = ?", dbargs)
-    page = c.fetchone()
+    page = models.Page.query.filter_by(cb_hash = comic_key).filter_by(page_num = page_num).first()
 
     if page is None:
         return redirect(url_for('index'))
 
-    return render_template("viewcomic.html", comic_key=page[0], page_number=page[1], page_file=page[2])
+    return render_template("viewcomic.html", comic_key=page.cb_hash, page_number=page.page_num, page_file=page.page_file)
