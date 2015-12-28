@@ -71,7 +71,7 @@ def extractcomic(comicfile, comic_name):
             continue
 
         pages_in_comic.append([i, file])
-        
+
         zf.extract(file, output)
         i += 1
 
@@ -79,6 +79,11 @@ def extractcomic(comicfile, comic_name):
     dbargs = (comic_name_hex, comic_name)
     c = conn.cursor()
     c.execute("INSERT INTO comics VALUES(?, ?, '', '', '', '', '', '', '')", dbargs)
+
+    #SQLAlchemy Stuff (Yes, running side by side...)
+    comic_sa = models.Comic(cb_hash=comic_name_hex, title=comic_name)
+    db.session.add(comic_sa)
+
     first_image_name = ""
     #To change, once a file is uploaded, allow a user to set the proper first page. Still need to add that to the metadata, will come later.
     for page in pages_in_comic:
@@ -86,6 +91,10 @@ def extractcomic(comicfile, comic_name):
             first_image_name = page[1]
         dbargs = (comic_name_hex, page[0], page[1])
         c.execute("INSERT INTO pages VALUES(?,?,?)", dbargs)
+        #SQLAlchemy stuff again.
+        page_sa = models.Page(cb_hash=comic_name_hex, page_num=page[0], page_file=page[1])
+        db.session.add(page_sa)
+    db.session.commit()
     conn.commit()
     conn.close()
     img = Image.open("app/static/comics/processed/"+comic_name_hex+"/"+first_image_name)
