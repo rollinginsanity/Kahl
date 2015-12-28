@@ -93,6 +93,7 @@ def extractcomic(comicfile, comic_name):
         c.execute("INSERT INTO pages VALUES(?,?,?)", dbargs)
         #SQLAlchemy stuff again.
         page_sa = models.Page(cb_hash=comic_name_hex, page_num=page[0], page_file=page[1])
+        print(page_sa)
         db.session.add(page_sa)
     db.session.commit()
     conn.commit()
@@ -115,14 +116,8 @@ def index():
 
 @app.route('/comiclist')
 def index_comiclist():
-    conn = sqlite3.connect("comicdb")
-    c = conn.cursor()
-    rows = c.execute("SELECT * FROM comics")
-    comics = []
-    for row in rows:
-        comics.append(row)
-    print(comics)
-    return render_template("index_comiclist.html", comiclist=comics)
+    comics_sa = models.Comic.query.all()
+    return render_template("index_comiclist.html", comiclist=comics_sa)
 
 #Takes an uploaded file and passes it off to an rq worker to be processed.
 #The filename of the uploaded file is hashed before saving, and taken by the rq worker
