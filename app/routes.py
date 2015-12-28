@@ -1,5 +1,5 @@
 #Some of the logic for the server.
-from app import app
+from app import app, models, db
 import os
 from flask import request, redirect, url_for, render_template
 from werkzeug import secure_filename
@@ -71,6 +71,7 @@ def extractcomic(comicfile, comic_name):
             continue
 
         pages_in_comic.append([i, file])
+        
         zf.extract(file, output)
         i += 1
 
