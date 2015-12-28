@@ -38,6 +38,30 @@ python-dev
 libjpeg-dev
 PIL
 
+Config file
+===========
+
+The config file takes a few values at this stage, and need to be in the structure:
+
+```
+[server]
+ServerBindIP = 0.0.0.0
+DebugMode = True
+ListenPort = 5000
+```
+
+```
+ServerBindIP = [The bind IP of the server. 127.0.0.1 to listen on localhost, 0.0.0.0 to listen to all requests.]
+```
+
+```
+DebugMode = [True to display debug output for the app, False to show no output. Only set to true when developing Kahl.]
+```
+
+```
+ListenPort = [The port you want this to listen on.]
+```
+
 High Level Architecture
 =======================
 
