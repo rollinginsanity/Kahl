@@ -6,3 +6,6 @@ app/static/thumbs/*
 __pycache__/
 .DS_Store
 dump.rdb
+*.pyc
+app.db
+db_repository/
