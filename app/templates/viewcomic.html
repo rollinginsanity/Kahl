@@ -20,14 +20,62 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+
+
+
   </head>
   <body>
 
-      <img src="{{url_for('static', filename='comics/processed/'+comic_key+'/'+page_file)}}" class="center-block" style="max-width:80vw;"  />
+      <img src="{{url_for('static', filename='comics/processed/'+comic_key+'/'+page_file)}}" id="comicpane"  style="center-block"  />
       <br />
 
-  <div class="last-page" onclick="{% if page_number > 1 %}location.href='/viewcomic/{{ comic_key }}/page/{{ page_number-1 }}';{% endif %}"></div>
-  <div class="next-page" onclick="location.href='/viewcomic/{{ comic_key }}/page/{{ page_number+1 }}';"></div>
+
+  <div class="last-page" id="last" onclick=""></div>
+  <div class="next-page" id="next"></div>
   <div class="top-bar" onclick="location.href='/index';"></div>
+  <div class="bottom-bar" onclick="resize()"></div>
+
+  <script>
+    var size = getParameterByName("size")
+    if (!size){
+      size = "wide"
+    }
+    document.getElementById('comicpane').className = "comic-pane-tall center-block";
+    function resize() {
+      if(size == "wide"){
+        document.getElementById('comicpane').className = "comic-pane-tall center-block";
+        size = "tall"
+      }
+      else if(size == "tall"){
+        document.getElementById('comicpane').className = "comic-pane-wide center-block";
+        size = "wide"
+      }
+    }
+
+      function getParameterByName(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+          results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    if (getParameterByName("size") == "wide"){
+      document.getElementById('comicpane').className = "comic-pane-wide center-block";
+    }
+    else if (getParameterByName("size") == "tall")
+    {
+      document.getElementById('comicpane').className = "comic-pane-tall center-block";
+    }
+
+    document.getElementById('next').onclick=function(){
+      location.href='/viewcomic/{{ comic_key }}/page/{{ page_number+1 }}?size='+size;
+    };
+
+    document.getElementById('last').onclick=function(){
+      {% if page_number > 1 %}location.href='/viewcomic/{{ comic_key }}/page/{{ page_number-1 }}{% endif %}?size='+size;
+    };
+
+  </script>
+
   </body>
 </html>
