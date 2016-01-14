@@ -71,10 +71,11 @@
       location.href='/viewcomic/{{ comic_key }}/page/{{ page_number+1 }}?size='+size;
     };
 
+{% if page_number > 1 %}
     document.getElementById('last').onclick=function(){
-      {% if page_number > 1 %}location.href='/viewcomic/{{ comic_key }}/page/{{ page_number-1 }}{% endif %}?size='+size;
+      location.href='/viewcomic/{{ comic_key }}/page/{{ page_number-1 }}?size='+size;
     };
-
+{% endif %}
   </script>
 
   </body>
