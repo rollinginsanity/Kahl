@@ -47,7 +47,12 @@ def extractcomic(comicfile, comic_name):
     files = natural_sort(zipfiles)
     i = 1
     for file in files:
+        #Checking for mac junk
         if "MACOSX" in file:
+            continue
+
+        #Some CBZ files have nested folders. Checking for them and ignoring them.
+        if file.endswith("/"):
             continue
 
         pages_in_comic.append([i, file])
