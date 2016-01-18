@@ -9,6 +9,8 @@
             <a href="/viewcomic/{{ comic[0] }}/page/1" class="thumbnail"><img src="{{url_for('static', filename='thumbs/'+comic[0]+'_thumb.jpg')}}" class="comic-image opacitywk"/></a>
             <div class="caption">
               <a href="/viewcomic/{{ comic[0] }}/page/1">{{ comic[1] }}</a>
+              <br />
+              <a href="/detail/{{ comic.id }}">Details</a>
             </div>
           </div>
           <br />

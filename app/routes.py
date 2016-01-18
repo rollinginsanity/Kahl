@@ -109,3 +109,12 @@ def view_comic(comic_key, page_num):
         return redirect(url_for('index'))
 
     return render_template("viewcomic.html", comic_key=page.cb_hash, page_number=page.page_num, page_file=page.page_file)
+
+#View the detail of a comic book.
+@app.route('/detail/<comic_key>', methods=['GET'])
+def comic_detail(comic_key):
+    comic = models.Comic.query.filter_by(id = comic_key).first()
+    comic_dict = dict((col, getattr(comic, col)) for col in comic.__table__.columns.keys())
+    print(comic)
+
+    return render_template("comic_detail.html", comic_dict=comic_dict, comic=comic)
