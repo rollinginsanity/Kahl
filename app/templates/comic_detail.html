@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<img src="{{url_for('static', filename='thumbs/'+comic.cb_hash+'_thumb.jpg')}}" class="comic-image opacitywk"/>
+
+<br />
+
+{% for attribute, value in comic_dict.items() %}
+
+{{ attribute }}: {{ value }}
+<br />
+
+{% endfor %}
+
+<a href="/delete/{{ comic.cb_hash }}">Delete Comic</a>
+
+{% endblock %}
