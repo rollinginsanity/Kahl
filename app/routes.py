@@ -10,6 +10,7 @@ import zipfile
 import hashlib
 import re
 from PIL import Image
+import shutil
 
 UPLOAD_FOLDER = 'app/static/comics/unprocessed'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'cbz'])
@@ -25,6 +26,10 @@ def natural_sort(l):
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+def deletecomic(comic_hash):
+    shutil.rmtree("app/static/comics/processed/"+comic_hash, ignore_errors=True)
+
 
 #Extract Comic Books into a directory
 #The directory name is hashed
@@ -120,8 +125,12 @@ def comic_detail(comic_id):
 
 @app.route('/delete/<comic_key>', methods=['GET'])
 def delete_comic(comic_key):
+    redis_conn = Redis()
+    q = Queue(connection=redis_conn)
     comic = models.Comic.query.filter_by(cb_hash = comic_key).first()
+    job = q.enqueue(deletecomic, comic.cb_hash)
     db.session.delete(comic)
     db.session.commit()
+    q = Queue(connection=redis_conn)  # no args implies the default queue
 
     return redirect(url_for('index'))
