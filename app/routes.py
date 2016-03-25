@@ -81,6 +81,26 @@ def extractcomic(comicfile, comic_name):
     img.thumbnail((192, 192), Image.ANTIALIAS)
     img.save("app/static/thumbs/"+comic_name_hex+"_thumb.jpg", "JPEG")
 
+#Update user pages for in progress reading.
+def updatePageRead(userid, comic, page):
+    pages_read_record = models.UserReadInProgress.query.filter_by(userID=userid).filter_by(cb_hash=comic).first()
+    if not pages_read_record:
+        page_record = models.UserReadInProgress(userID=userid, cb_hash=comic, page_num=page)
+        db.session.add(page_record)
+        db.session.commit()
+    else:
+        pages_read_record.pagenum = page
+        db.session.commit()
+
+
+
+def removePageRead(userid, comic):
+    pages_read_record = models.UserReadInProgress.query.filter_by(name=user).filter_by(cb_hash=comic).first()
+    db.session.delete(pages_read_record)
+    db.session.commit()
+
+###########################
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -93,7 +113,8 @@ def index():
 @app.route('/comiclist')
 def index_comiclist():
     comics = models.Comic.query.all()
-    return render_template("index_comiclist.html", comiclist=comics)
+    readlist = models.UserReadInProgress.query.filter_by(userID = session['userid']).all()
+    return render_template("index_comiclist.html", comiclist=comics, readlist=readlist)
 
 #Takes an uploaded file and passes it off to an rq worker to be processed.
 #The filename of the uploaded file is hashed before saving, and taken by the rq worker
@@ -120,7 +141,31 @@ def view_comic(comic_key, page_num):
 
     page = models.Page.query.filter_by(cb_hash = comic_key).filter_by(page_num = page_num).first()
 
+    pages_read_record = models.UserReadInProgress.query.filter_by(userID=session['userid']).filter_by(cb_hash=comic_key).first()
+
+    if not pages_read_record:
+        page_record = models.UserReadInProgress(userID=session['userid'], cb_hash=comic_key, page_num=page_num)
+        db.session.add(page_record)
+        db.session.commit()
+    else:
+        pages_read_record.page_num = page_num
+        db.session.commit()
+
     if page is None:
+        pages_read_record = models.UserReadInProgress.query.filter_by(userID=session['userid']).filter_by(cb_hash=comic).first()
+        db.session.delete(pages_read_record)
+        db.session.commit()
+        return redirect(url_for('index'))
+
+    return render_template("viewcomic.html", comic_key=page.cb_hash, page_number=page.page_num, page_file=page.page_file)
+
+@app.route('/resumecomic/<comic_key>/page/<int:page_num>', methods=['GET'])
+def resume_comic(comic_key, page_num):
+
+    page = models.Page.query.filter_by(cb_hash = comic_key).filter_by(page_num = page_num).first()
+    updatePageRead(session['userid'], comic_key, page_num)
+    if page is None:
+        removePageRead(session['userid'], comic_key)
         return redirect(url_for('index'))
 
     return render_template("viewcomic.html", comic_key=page.cb_hash, page_number=page.page_num, page_file=page.page_file)
@@ -173,10 +218,12 @@ def loginUser():
 
 
     session['username'] = logged_in_user.name
+    session['userid'] = logged_in_user.id
 
     return redirect(url_for('index'))
 
 @app.route('/users/logout', methods=['GET'])
 def logoutUser():
     session.pop('username', None)
+    session.pop('userid', None)
     return redirect(url_for('index'))
