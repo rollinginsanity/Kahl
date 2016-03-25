@@ -8,10 +8,10 @@
             <div class="caption">
               <a href="/viewcomic/{{ comic.cb_hash }}/page/1">{{ comic.title }}</a>
               <br />
-              <a href="/detail/{{ comic.id }}">Details</a><br />
+              <a href="/detail/{{ comic.id }}">Details</a>
               {% for read in readlist %}
                 {% if read.cb_hash == comic.cb_hash %}
-                <a href="/viewcomic/{{ comic.cb_hash }}/page/{{ read.page_num }}?size=wide">Resume from page {{ read.page_num }}</a>
+                <a href="/viewcomic/{{ comic.cb_hash }}/page/{{ read.page_num }}?size=wide">Resume</a>
                 {% endif %}
               {% endfor %}
             </div>
