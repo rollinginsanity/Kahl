@@ -1,7 +1,7 @@
 #Some of the logic for the server.
 from app import app, models, db
 import os
-from flask import request, redirect, url_for, render_template
+from flask import request, redirect, url_for, render_template, session, escape
 from werkzeug import secure_filename
 from redis import Redis
 from rq import Queue
@@ -11,6 +11,8 @@ import hashlib
 import re
 from PIL import Image
 import shutil
+
+app.secret_key = 'changethistosomethingsecuremaybe?'
 
 UPLOAD_FOLDER = 'app/static/comics/unprocessed'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'cbz'])
@@ -82,8 +84,11 @@ def extractcomic(comicfile, comic_name):
 @app.route('/')
 @app.route('/index')
 def index():
+    username = "Not logged in."
+    if 'username' in session:
+        username = "Logged in as "+session['username']+"."
 
-    return render_template("index_main.html")
+    return render_template("index_main.html", username=username)
 
 @app.route('/comiclist')
 def index_comiclist():
@@ -138,4 +143,40 @@ def delete_comic(comic_key):
     db.session.commit()
     q = Queue(connection=redis_conn)  # no args implies the default queue
 
+    return redirect(url_for('index'))
+
+###################
+#User Login Section
+###################
+
+#Page to create new user accounts.
+@app.route('/users/create', methods=['GET', 'POST'])
+def addUser():
+    if request.method == 'POST':
+        user_name = request.form['username']
+        newUser = models.User(name=user_name)
+        db.session.add(newUser)
+        db.session.commit()
+        return redirect(url_for('index'))
+
+    return render_template("adduser.html")
+
+#probably need to add an alert for missing username.
+@app.route('/users/login', methods=['GET', 'POST'])
+def loginUser():
+    user_name = request.form['username']
+
+    logged_in_user = models.User.query.filter_by(name = user_name).first()
+
+    if not logged_in_user:
+        return redirect(url_for('index'))
+
+
+    session['username'] = logged_in_user.name
+
+    return redirect(url_for('index'))
+
+@app.route('/users/logout', methods=['GET'])
+def logoutUser():
+    session.pop('username', None)
     return redirect(url_for('index'))
