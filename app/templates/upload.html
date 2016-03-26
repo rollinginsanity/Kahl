@@ -2,8 +2,39 @@
 {% block content %}
 <h1>Upload new File</h1>
   <form action="" method=post enctype=multipart/form-data>
-    <p><input type="file" name="file"/>
-       <input type="text" name="comicname"/>
-       <input type="submit" value="Upload"/>
+    <div class="form-group">
+      <label for="fileupload">Comic File</label>
+       <input type="file" id="fileupload" name="file"/><br />
+    </div>
+    <div class="form-group">
+      <label for="name">Comic Name</label>
+       <input type="text" class="form-control" id="name" name="comicname"/><br />
+     </div>
+     <div class="form-group">
+       <label for="author">Comic Author</label>
+       <input type="text" class="form-control" id="author" name="comicauthor"/><br />
+     </div>
+     <div class="form-group">
+       <label for="genre">Comic Genre</label>
+       <input type="text" class="form-control" id="genre" name="comicgenre"/><br />
+     </div>
+     <div class="form-group">
+       <label for="series">Comic Series</label>
+       <input type="text" class="form-control" id="series" name="comicseries"/><br />
+     </div>
+     <div class="form-group">
+       <label for="franchise">Comic Franchise</label>
+       <input type="text" class="form-control" id="franchise" name="comicfran"/><br />
+     </div>
+     <div class="form-group">
+       <label for="volume">Comic Volume</label>
+       <input type="text" class="form-control" id="volume" name="comicvol"/><br />
+     </div>
+     <div class="form-group">
+       <label for="issue">Comic Issue</label>
+       <input type="text" class="form-control" id="issue" name="comicissue"/><br />
+     </div>
+       <input type="submit" value="Upload"/><br />
+
   </form>
 {% endblock %}

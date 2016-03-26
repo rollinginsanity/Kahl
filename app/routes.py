@@ -36,8 +36,8 @@ def deletecomic(comic_hash):
 #Extract Comic Books into a directory
 #The directory name is hashed
 #Add a metadata file with the comic name and the pages.
-def extractcomic(comicfile, comic_name):
-    comic_name_pre_hash = comic_name
+def extractcomic(comicfile, comic):
+    comic_name_pre_hash = comic['name']
     comic_name_hashed = hashlib.sha1(comic_name_pre_hash.encode())
     comic_name_hex = comic_name_hashed.hexdigest()
     output = "app/static/comics/processed/"+comic_name_hex
@@ -63,7 +63,7 @@ def extractcomic(comicfile, comic_name):
         i += 1
 
     #SQLAlchemy Stuff (Yes, running side by side...)
-    comic_sa = models.Comic(cb_hash=comic_name_hex, title=comic_name)
+    comic_sa = models.Comic(cb_hash=comic_name_hex, title=comic['name'], author=comic['author'], genre=comic['genre'], series=comic['series'], franchise=comic['franchise'], issue_num=comic['issue'], volume_num=comic['volume'])
     db.session.add(comic_sa)
 
     first_image_name = ""
@@ -127,9 +127,16 @@ def index_comiclist():
 #and extrated to a directory matching the name of the comic the user set (may hash this as well)
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    comic = {}
     if request.method == 'POST':
         file = request.files['file']
-        comic_name = request.form['comicname']
+        comic['name'] = request.form['comicname']
+        comic['author'] = request.form['comicauthor']
+        comic['genre'] = request.form['comicgenre']
+        comic['series'] = request.form['comicseries']
+        comic['franchise'] = request.form['comicfran']
+        comic['volume'] = request.form['comicvol']
+        comic['issue'] = request.form['comicissue']
         if file and allowed_file(file.filename):
             filename_pre_hash = secure_filename(file.filename)
             filename_hashed = hashlib.sha1(filename_pre_hash.encode())
@@ -137,7 +144,7 @@ def upload():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename_hex))
             redis_conn = Redis()
             q = Queue(connection=redis_conn)  # no args implies the default queue
-            job = q.enqueue(extractcomic, os.path.join(app.config['UPLOAD_FOLDER'], filename_hex), comic_name)
+            job = q.enqueue(extractcomic, os.path.join(app.config['UPLOAD_FOLDER'], filename_hex), comic)
             return redirect(url_for('index'))
     return render_template("upload.html")
 
