@@ -113,7 +113,13 @@ def index():
 @app.route('/comiclist')
 def index_comiclist():
     comics = models.Comic.query.all()
-    readlist = models.UserReadInProgress.query.filter_by(userID = session['userid']).all()
+
+    try:
+        userid = session['userid']
+    except:
+        userid = " "
+
+    readlist = models.UserReadInProgress.query.filter_by(userID = userid).all()
     return render_template("index_comiclist.html", comiclist=comics, readlist=readlist)
 
 #Takes an uploaded file and passes it off to an rq worker to be processed.
