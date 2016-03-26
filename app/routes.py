@@ -144,23 +144,34 @@ def upload():
 #View the pages in a comic book:
 @app.route('/viewcomic/<comic_key>/page/<int:page_num>', methods=['GET'])
 def view_comic(comic_key, page_num):
+    #Checking to see if there is a UserID that has been set. If not, set it to be empty, otherwise, set it to the session['userid'] field.
+    try:
+        userid = session['userid']
+    except:
+        userid = " "
 
+    #Get the page object for the chosen page.
     page = models.Page.query.filter_by(cb_hash = comic_key).filter_by(page_num = page_num).first()
 
-    pages_read_record = models.UserReadInProgress.query.filter_by(userID=session['userid']).filter_by(cb_hash=comic_key).first()
+    #If the userID is set, update the page read for the user.
+    if not userid == " ":
 
-    if not pages_read_record:
-        page_record = models.UserReadInProgress(userID=session['userid'], cb_hash=comic_key, page_num=page_num)
-        db.session.add(page_record)
-        db.session.commit()
-    else:
-        pages_read_record.page_num = page_num
-        db.session.commit()
-
-    if page is None:
         pages_read_record = models.UserReadInProgress.query.filter_by(userID=session['userid']).filter_by(cb_hash=comic_key).first()
-        pages_read_record.page_num = -1
-        db.session.commit()
+
+        if not pages_read_record:
+            page_record = models.UserReadInProgress(userID=session['userid'], cb_hash=comic_key, page_num=page_num)
+            db.session.add(page_record)
+            db.session.commit()
+        else:
+            pages_read_record.page_num = page_num
+            db.session.commit()
+
+    #For the last page, go back to the manu screen. For logged in users, set the page to -1, to show the comic has been read.
+    if page is None:
+        if not userid == " ":
+            pages_read_record = models.UserReadInProgress.query.filter_by(userID=session['userid']).filter_by(cb_hash=comic_key).first()
+            pages_read_record.page_num = -1
+            db.session.commit()
         return redirect(url_for('index'))
 
     return render_template("viewcomic.html", comic_key=page.cb_hash, page_number=page.page_num, page_file=page.page_file)
