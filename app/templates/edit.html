@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Edit Comic</h1>
+  <form action="/comics/edit/{{ comic.id }}" method=post enctype=multipart/form-data>
+    <div class="form-group">
+      <label for="name">Comic Name</label>
+       <input type="text" class="form-control" id="name" name="comicname" value="{{ comic.title }}"/><br />
+     </div>
+     <div class="form-group">
+       <label for="author">Comic Author</label>
+       <input type="text" class="form-control" id="author" name="comicauthor" value="{{ comic.author }}"/><br />
+     </div>
+     <div class="form-group">
+       <label for="genre">Comic Genre</label>
+       <input type="text" class="form-control" id="genre" name="comicgenre" value="{{ comic.genre }}"/><br />
+     </div>
+     <div class="form-group">
+       <label for="series">Comic Series</label>
+       <input type="text" class="form-control" id="series" name="comicseries" value="{{ comic.series }}"/><br />
+     </div>
+     <div class="form-group">
+       <label for="franchise">Comic Franchise</label>
+       <input type="text" class="form-control" id="franchise" name="comicfran" value="{{ comic.franchise }}"/><br />
+     </div>
+     <div class="form-group">
+       <label for="volume">Comic Volume</label>
+       <input type="text" class="form-control" id="volume" name="comicvol" value="{{ comic.volume_num }}"/><br />
+     </div>
+     <div class="form-group">
+       <label for="issue">Comic Issue</label>
+       <input type="text" class="form-control" id="issue" name="comicissue" value="{{ comic.issue_num }}"/><br />
+     </div>
+     <input type="hidden" value="{{ comic.cb_hash }}" />
+       <input type="submit" value="Submit"/><br />
+
+  </form>
+{% endblock %}

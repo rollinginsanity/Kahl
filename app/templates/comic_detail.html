@@ -2,7 +2,7 @@
 {% block content %}
 
 <img src="{{url_for('static', filename='thumbs/'+comic.cb_hash+'_thumb.jpg')}}" class="comic-image opacitywk"/>
-
+<a href="/comics/edit/{{ comic.id }}">Edit Comic</a>
 <table class="table">
 
 {% for attribute, value in comic_dict.items() %}

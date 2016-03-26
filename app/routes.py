@@ -183,16 +183,21 @@ def view_comic(comic_key, page_num):
 
     return render_template("viewcomic.html", comic_key=page.cb_hash, page_number=page.page_num, page_file=page.page_file)
 
-@app.route('/resumecomic/<comic_key>/page/<int:page_num>', methods=['GET'])
-def resume_comic(comic_key, page_num):
+@app.route('/comics/edit/<comic_id>', methods=['GET', 'POST'])
+def edit_comic(comic_id):
 
-    page = models.Page.query.filter_by(cb_hash = comic_key).filter_by(page_num = page_num).first()
-    updatePageRead(session['userid'], comic_key, page_num)
-    if page is None:
-        removePageRead(session['userid'], comic_key)
+    if request.method == 'POST':
+        comic = models.Comic.query.filter_by(id = comic_id).first()
+        comic.author = request.form['comicauthor']
+        comic.series = request.form['comicseries']
+        comic.genre = request.form['comicgenre']
+        comic.franchise = request.form['comicfran']
+        comic.issue_num = request.form['comicissue']
+        comic.volume_num = request.form['comicvol']
+        db.session.commit()
         return redirect(url_for('index'))
-
-    return render_template("viewcomic.html", comic_key=page.cb_hash, page_number=page.page_num, page_file=page.page_file)
+    comic = models.Comic.query.filter_by(id = comic_id).first()
+    return render_template("edit.html", comic=comic)
 
 #View the detail of a comic book.
 @app.route('/detail/<comic_id>', methods=['GET'])
