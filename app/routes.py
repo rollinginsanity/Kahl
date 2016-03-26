@@ -152,8 +152,8 @@ def view_comic(comic_key, page_num):
         db.session.commit()
 
     if page is None:
-        pages_read_record = models.UserReadInProgress.query.filter_by(userID=session['userid']).filter_by(cb_hash=comic).first()
-        db.session.delete(pages_read_record)
+        pages_read_record = models.UserReadInProgress.query.filter_by(userID=session['userid']).filter_by(cb_hash=comic_key).first()
+        pages_read_record.page_num = -1
         db.session.commit()
         return redirect(url_for('index'))
 

@@ -11,7 +11,14 @@
               <a href="/detail/{{ comic.id }}">Details</a>
               {% for read in readlist %}
                 {% if read.cb_hash == comic.cb_hash %}
-                <a href="/viewcomic/{{ comic.cb_hash }}/page/{{ read.page_num }}?size=wide">Resume</a>
+
+                  {% if read.page_num > -1 %}
+                  <a href="/viewcomic/{{ comic.cb_hash }}/page/{{ read.page_num }}?size=wide">Resume</a>
+                  {% else %}
+                  <span style="color: red;">Read</span>
+                  {% endif %}
+
+
                 {% endif %}
               {% endfor %}
             </div>
